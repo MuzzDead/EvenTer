@@ -1,0 +1,6 @@
+@EvenTer_HostAddress = http://localhost:5037
+
+GET {{EvenTer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
