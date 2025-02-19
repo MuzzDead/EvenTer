@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvenTer.DAL.Enums.Events;
+namespace EvenTer.DAL.Enums.User;
 
-public enum EventType
+public enum UserRole
 {
+	User,
+	Organizer,
+	Admin
 }
