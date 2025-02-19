@@ -1,4 +1,5 @@
-﻿using EvenTer.DAL.Enums.Events;
+﻿using EvenTer.DAL.Entities.Users;
+using EvenTer.DAL.Enums.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace EvenTer.DAL.Entities.Events;
 
 public class Event
 {
-	public Guid EventId { get; set; }
+	public Guid Id { get; set; }
 	public string Image {  get; set; }
 	public string EventName { get; set; }
 	public string Description { get; set; }
@@ -22,6 +23,6 @@ public class Event
 	public EventStatus Status { get; set; } = EventStatus.Planned;
 	public EventCategory Category { get; set; } // event category
 	public int? Capacity { get; set; }
-	public int? RegisteredCount { get; set; }
-	// public User Organizer { get; set; } // connection with organizer
+	// public int? RegisteredCount { get; set; }
+	public User Organizer { get; set; } // connection with organizer
 }

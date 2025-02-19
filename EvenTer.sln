@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenTer", "EvenTer\EvenTer.csproj", "{C9DEBEBE-78AD-4F9E-823B-98A19EFC48D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenTer.WebAPI", "EvenTer\EvenTer.WebAPI.csproj", "{C9DEBEBE-78AD-4F9E-823B-98A19EFC48D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvenTer.DAL", "EvenTer.DAL\EvenTer.DAL.csproj", "{3033E00A-15F8-4C5A-B56D-64B6863C4FED}"
 EndProject
