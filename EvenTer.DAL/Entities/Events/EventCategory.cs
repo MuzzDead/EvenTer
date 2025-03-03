@@ -14,5 +14,7 @@ namespace EvenTer.DAL.Entities.Events
 		public string Image { get; set; } // how it to save in db?
 		public string Description { get; set; }
 		public CategoryStatus Status { get; set; } = CategoryStatus.Active;
+
+		public ICollection<Event> Events { get; set; } = new List<Event>();
 	}
 }
