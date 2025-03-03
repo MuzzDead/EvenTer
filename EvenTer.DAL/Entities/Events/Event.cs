@@ -21,8 +21,11 @@ public class Event
 	public string Location { get; set; }
 	public string? MapUrl { get; set; }
 	public EventStatus Status { get; set; } = EventStatus.Planned;
-	public EventCategory Category { get; set; } // event category
 	public int? Capacity { get; set; }
-	// public int? RegisteredCount { get; set; }
-	public User Organizer { get; set; } // connection with organizer
+
+	public Guid OrganizerId { get; set; }
+	public User Organizer { get; set; }
+
+	public int CategoryId { get; set; }
+	public EventCategory Category { get; set; }
 }

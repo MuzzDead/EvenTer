@@ -1,4 +1,5 @@
-﻿using EvenTer.DAL.Enums.User;
+﻿using EvenTer.DAL.Entities.Events;
+using EvenTer.DAL.Enums.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,4 +21,6 @@ public class User
 	public UserRole UserRole { get; set; } = UserRole.User;
 	public DateTime CreatedAt {  get; set; } = DateTime.Now;
 	public bool IsActive { get; set; } = true;
+
+	public ICollection<Event> Events { get; set; } = new List<Event>();
 }
