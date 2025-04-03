@@ -11,16 +11,7 @@ namespace EvenTer.DAL.Persistence
 {
 	public class EvenTerDbContext : DbContext
 	{
-		public EvenTerDbContext()
-		{
-			Database.EnsureCreated();
-		}
-
-		public EvenTerDbContext(DbContextOptions<EvenTerDbContext> options) : base(options)
-		{
-
-			Database.EnsureCreated();
-		}
+		public EvenTerDbContext(DbContextOptions<EvenTerDbContext> options) : base(options) { }
 
 		public DbSet<User> Users { get; set; }
 		public DbSet<Event> Events { get; set; }
@@ -29,8 +20,6 @@ namespace EvenTer.DAL.Persistence
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-
-			modelBuilder.ApplyConfigurationsFromAssembly(typeof(EvenTerDbContext).Assembly);
 		}
 	}
 }
