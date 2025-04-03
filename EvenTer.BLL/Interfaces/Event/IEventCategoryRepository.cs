@@ -13,6 +13,6 @@ public interface IEventCategoryRepository
 	Task RemoveCategoryAsync(Guid categoryId);
 	Task UpdateCategoryAsync(Guid categoryId, EventCategory category);
 	Task<IEnumerable<EventCategory>> GetAllCategoryAsync();
-	Task<EventCategory> GetCategoryById(Guid eventid);
+	Task<EventCategory> GetCategoryById(Guid categoryid);
 	Task<EventCategory> GetCategoryByNameAsync(string categoryName);
 }
