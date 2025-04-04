@@ -1,4 +1,4 @@
-﻿using EvenTer.BLL.Interfaces.Event;
+﻿using EvenTer.BLL.Interfaces.Event.IRepositories;
 using EvenTer.DAL.Entities.Events;
 using EvenTer.DAL.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +32,7 @@ public class EventCategoryRepository : IEventCategoryRepository
 		return await _context.EventsCategory.ToListAsync();
 	}
 
-	public async Task<EventCategory> GetCategoryById(Guid categoryid)
+	public async Task<EventCategory> GetCategoryById(int categoryid)
 	{
 		return await _context.EventsCategory.FindAsync(categoryid);
 	}
@@ -43,7 +43,7 @@ public class EventCategoryRepository : IEventCategoryRepository
 			.FirstOrDefaultAsync(e => e.Title == categoryName);
 	}
 
-	public async Task RemoveCategoryAsync(Guid categoryId)
+	public async Task RemoveCategoryAsync(int categoryId)
 	{
 		var category = await GetCategoryById(categoryId);
 
@@ -51,7 +51,7 @@ public class EventCategoryRepository : IEventCategoryRepository
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task UpdateCategoryAsync(Guid categoryId, EventCategory category)
+	public async Task UpdateCategoryAsync(int categoryId, EventCategory category)
 	{
 		var updCategory = await GetCategoryById(categoryId);
 

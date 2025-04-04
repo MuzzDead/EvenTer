@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using EvenTer.DAL.Entities.Events;
 
-namespace EvenTer.BLL.Interfaces.Event;
+namespace EvenTer.BLL.Interfaces.Event.IRepositories;
 
 public interface IEventCategoryRepository
 {
 	Task AddCategoryAsync(EventCategory category);
-	Task RemoveCategoryAsync(Guid categoryId);
-	Task UpdateCategoryAsync(Guid categoryId, EventCategory category);
+	Task RemoveCategoryAsync(int categoryId);
+	Task UpdateCategoryAsync(int categoryId, EventCategory category);
 	Task<IEnumerable<EventCategory>> GetAllCategoryAsync();
-	Task<EventCategory> GetCategoryById(Guid categoryid);
+	Task<EventCategory> GetCategoryById(int categoryid);
 	Task<EventCategory> GetCategoryByNameAsync(string categoryName);
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EventEntity = EvenTer.DAL.Entities.Events.Event;
 
-namespace EvenTer.BLL.Interfaces.Event;
+namespace EvenTer.BLL.Interfaces.Event.IRepositories;
 
 public interface IEventRepository
 {
@@ -13,5 +13,5 @@ public interface IEventRepository
 	Task RemoveEventAsync(Guid eventId);
 	Task UpdateEventAsync(Guid eventId, EventEntity events);
 	Task<IEnumerable<EventEntity>> GetAllEventsAsync();
-	Task<EventEntity> GetEventById (Guid eventid);
+	Task<EventEntity> GetEventById(Guid eventid);
 }

@@ -1,4 +1,4 @@
-﻿using EvenTer.BLL.Interfaces.Event;
+﻿using EvenTer.BLL.Interfaces.Event.IRepositories;
 using EvenTer.DAL.Entities.Events;
 using EvenTer.DAL.Persistence;
 using Microsoft.EntityFrameworkCore;
