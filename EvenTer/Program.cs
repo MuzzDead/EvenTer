@@ -1,4 +1,8 @@
 
+using EvenTer.BLL.Interfaces.Event.IRepositories;
+using EvenTer.BLL.Interfaces.Event.IServices;
+using EvenTer.BLL.Repositories.Event;
+using EvenTer.BLL.Services.Event;
 using EvenTer.DAL.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,11 +23,20 @@ namespace EvenTer
 			builder.Services.AddDbContext<EvenTerDbContext>(options =>
 				options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+			builder.Services.AddSwaggerGen();
+
+			builder.Services.AddScoped<IEventRepository, EventRepository>();
+			builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
+			builder.Services.AddScoped<IEventService, EventService>();
+			builder.Services.AddScoped<IEventCategoryService, EventCategoryService>();
+
 			var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
+				app.UseSwagger();
+				app.UseSwaggerUI();
 				app.MapOpenApi();
 			}
 

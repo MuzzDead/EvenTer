@@ -1,6 +1,7 @@
 ﻿using EvenTer.BLL.DTO.Event;
 using EvenTer.BLL.Interfaces.Event.IRepositories;
 using EvenTer.BLL.Interfaces.Event.IServices;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,13 @@ public class EventService : IEventService
 
 	public async Task<EventEntity> GetEvent(Guid eventId)
 	{
-		return await _repository.GetEventById(eventId);
+		var events = await _repository.GetEventById(eventId);
+		if (events == null)
+		{
+			throw new ArgumentNullException(nameof(eventId), "Event data is null!");
+		}
+
+		return events;
 	}
 
 	public async Task<IEnumerable<EventEntity>> GetEvents()
