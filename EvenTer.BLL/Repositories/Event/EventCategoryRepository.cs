@@ -10,7 +10,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EvenTer.BLL.Repository;
+namespace EvenTer.BLL.Repositories.Event;
 
 public class EventCategoryRepository : IEventCategoryRepository
 {

@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EventEntity = EvenTer.DAL.Entities.Events.Event;
 
-namespace EvenTer.BLL.Repository;
+namespace EvenTer.BLL.Repositories.Event;
 
 public class EventRepository : IEventRepository
 {
@@ -18,18 +19,18 @@ public class EventRepository : IEventRepository
 		_context = context;
 	}
 
-	public async Task AddEventAsync(Event events)
+	public async Task AddEventAsync(EventEntity events)
 	{
 		await _context.Events.AddAsync(events);
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task<IEnumerable<Event>> GetAllEventsAsync()
+	public async Task<IEnumerable<EventEntity>> GetAllEventsAsync()
 	{
 		return await _context.Events.ToListAsync();
 	}
 
-	public async Task<Event> GetEventById(Guid eventid)
+	public async Task<EventEntity> GetEventById(Guid eventid)
 	{
 		return await _context.Events.FindAsync(eventid);
 	}
@@ -42,7 +43,7 @@ public class EventRepository : IEventRepository
 		await _context.SaveChangesAsync();
 	}
 
-	public async Task UpdateEventAsync(Guid eventId, Event events)
+	public async Task UpdateEventAsync(Guid eventId, EventEntity events)
 	{
 		var specialEvent = await GetEventById(eventId);
 
