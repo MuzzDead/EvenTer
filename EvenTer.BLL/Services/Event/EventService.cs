@@ -1,5 +1,6 @@
 ﻿using EvenTer.BLL.DTO.Event;
-using EvenTer.BLL.Interfaces.Event;
+using EvenTer.BLL.Interfaces.Event.IRepositories;
+using EvenTer.BLL.Interfaces.Event.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
