@@ -1,5 +1,6 @@
 ﻿using EvenTer.BLL.Interfaces.Event.IRepositories;
 using EvenTer.DAL.Entities.Events;
+using EvenTer.DAL.Enums.Events;
 using EvenTer.DAL.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,7 +28,9 @@ public class EventRepository : IEventRepository
 
 	public async Task<IEnumerable<EventEntity>> GetAllEventsAsync()
 	{
-		return await _context.Events.ToListAsync();
+		return await _context.Events
+			.Where(e => e.Status == EventStatus.Planned)
+			.ToListAsync();
 	}
 
 	public async Task<EventEntity> GetEventById(Guid eventid)
@@ -37,14 +40,14 @@ public class EventRepository : IEventRepository
 
 	public async Task<IEnumerable<EventEntity>> GetEventsByCategoryAsync(int categoryId)
 	{
-		var events = await _context.Events.Where(e => e.CategoryId == categoryId).ToListAsync();
-		return events;
+		return await _context.Events.Where(e => e.CategoryId == categoryId 
+			&& e.Status == EventStatus.Planned).ToListAsync();
 	}
 
 	public async Task<IEnumerable<EventEntity>> GetEventsByTitle(string title)
 	{
 		return await _context.Events
-			.Where(e => EF.Functions.ILike(e.EventName, $"%{title}%"))
+			.Where(e => EF.Functions.ILike(e.EventName, $"%{title}%") && e.Status == EventStatus.Planned)
 			.OrderBy(e => e.EventName)
 			.Take(8)
 			.ToListAsync();
