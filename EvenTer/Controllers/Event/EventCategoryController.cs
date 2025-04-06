@@ -63,5 +63,19 @@ namespace EvenTer.WebAPI.Controllers.Event
 			await _service.DeleteCategory(categoryId);
 			return Ok("Category deleted successful!");
 		}
+
+		[HttpGet("search")]
+		public async Task<IActionResult> SearchCategory([FromQuery] string categoryName)
+		{
+			if (string.IsNullOrWhiteSpace(categoryName))
+				return BadRequest("Title cannot be empty.");
+
+			var categories = await _service.GetCategoryByNameAsync(categoryName);
+
+			if (categories == null || !categories.Any())
+				return NotFound($"No events found with title containing '{categoryName}'.");
+
+			return Ok(categories);
+		}
 	}
 }

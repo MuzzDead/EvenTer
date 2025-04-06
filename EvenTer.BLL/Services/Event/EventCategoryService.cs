@@ -40,8 +40,11 @@ public class EventCategoryService : IEventCategoryService
 		return await _repository.GetCategoryById(categoryId);
 	}
 
-	public async Task<EventCategory> GetCategoryByNameAsync(string categoryName)
+	public async Task<IEnumerable<EventCategory>> GetCategoryByNameAsync(string categoryName)
 	{
+		if (categoryName == null)
+			throw new ArgumentNullException(nameof(categoryName), "Event data is null!");
+
 		return await _repository.GetCategoryByNameAsync(categoryName);
 	}
 

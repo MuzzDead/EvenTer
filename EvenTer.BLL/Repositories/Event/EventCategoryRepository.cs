@@ -1,5 +1,6 @@
 ﻿using EvenTer.BLL.Interfaces.Event.IRepositories;
 using EvenTer.DAL.Entities.Events;
+using EvenTer.DAL.Enums.Events;
 using EvenTer.DAL.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -37,10 +38,13 @@ public class EventCategoryRepository : IEventCategoryRepository
 		return await _context.EventsCategory.FindAsync(categoryid);
 	}
 
-	public async Task<EventCategory> GetCategoryByNameAsync(string categoryName)
+	public async Task<IEnumerable<EventCategory>> GetCategoryByNameAsync(string categoryName)
 	{
 		return await _context.EventsCategory
-			.FirstOrDefaultAsync(e => e.Title == categoryName);
+			.Where(e => EF.Functions.ILike(e.Title, $"%{categoryName}%"))
+			.OrderBy(e => e.Title)
+			.Take(5)
+			.ToListAsync();
 	}
 
 	public async Task RemoveCategoryAsync(int categoryId)

@@ -14,5 +14,5 @@ public interface IEventCategoryRepository
 	Task UpdateCategoryAsync(int categoryId, EventCategory category);
 	Task<IEnumerable<EventCategory>> GetAllCategoryAsync();
 	Task<EventCategory> GetCategoryById(int categoryid);
-	Task<EventCategory> GetCategoryByNameAsync(string categoryName);
+	Task<IEnumerable<EventCategory>> GetCategoryByNameAsync(string categoryName);
 }
