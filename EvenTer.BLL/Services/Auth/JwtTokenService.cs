@@ -21,7 +21,7 @@ public class JwtTokenService
 		_configuration = configuration;
 	}
 
-	public string GenerateToken(Guid userId, string username)
+	public string GenerateToken(Guid userId, string username, string role)
 	{
 		var jwtSettings = _configuration.GetSection("JwtSettings");
 
@@ -29,6 +29,7 @@ public class JwtTokenService
 		{
 			new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
 			new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+			new Claim(ClaimTypes.Role, role),
 			new Claim("username", username)
 		};
 
