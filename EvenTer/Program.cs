@@ -25,6 +25,8 @@ namespace EvenTer
 
 			builder.Services.AddSwaggerGen();
 
+			builder.Services.AddHostedService<EventStatusUpdaterService>();
+
 			builder.Services.AddScoped<IEventRepository, EventRepository>();
 			builder.Services.AddScoped<IEventCategoryRepository, EventCategoryRepository>();
 			builder.Services.AddScoped<IEventService, EventService>();
