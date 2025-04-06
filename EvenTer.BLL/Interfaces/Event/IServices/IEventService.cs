@@ -15,4 +15,6 @@ public interface IEventService
 	Task<IEnumerable<EventEntity>> GetEvents();
 	Task<EventEntity> GetEvent(Guid eventId);
 	Task UpdateEvent(Guid eventId, EventDTO eventDTO);
+	Task<IEnumerable<EventEntity>> GetEventByCategory(int categoryId);
+	Task<IEnumerable<EventEntity>> GetEventByTitle(string title);
 }

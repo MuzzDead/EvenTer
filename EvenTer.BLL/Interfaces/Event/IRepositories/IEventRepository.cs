@@ -14,4 +14,6 @@ public interface IEventRepository
 	Task UpdateEventAsync(Guid eventId, EventEntity events);
 	Task<IEnumerable<EventEntity>> GetAllEventsAsync();
 	Task<EventEntity> GetEventById(Guid eventid);
+	Task<IEnumerable<EventEntity>> GetEventsByCategoryAsync(int categoryId);
+	Task<IEnumerable<EventEntity>> GetEventsByTitle(string title);
 }

@@ -35,6 +35,21 @@ public class EventRepository : IEventRepository
 		return await _context.Events.FindAsync(eventid);
 	}
 
+	public async Task<IEnumerable<EventEntity>> GetEventsByCategoryAsync(int categoryId)
+	{
+		var events = await _context.Events.Where(e => e.CategoryId == categoryId).ToListAsync();
+		return events;
+	}
+
+	public async Task<IEnumerable<EventEntity>> GetEventsByTitle(string title)
+	{
+		return await _context.Events
+			.Where(e => EF.Functions.ILike(e.EventName, $"%{title}%"))
+			.OrderBy(e => e.EventName)
+			.Take(8)
+			.ToListAsync();
+	}
+
 	public async Task RemoveEventAsync(Guid eventId)
 	{
 		var specialEvent = GetEventById(eventId);

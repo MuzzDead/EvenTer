@@ -1,5 +1,6 @@
 ﻿using EvenTer.BLL.DTO.Event;
 using EvenTer.BLL.Interfaces.Event.IServices;
+using EvenTer.BLL.Services.Event;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,5 +52,36 @@ public class EventController : ControllerBase
 	public async Task<IActionResult> GetEvents()
 	{
 		return Ok(await _service.GetEvents());
+	}
+
+	[HttpGet("{categoryId:int}")]
+	public async Task<IActionResult> GetEventsByCategory([FromRoute] int categoryId)
+	{
+		if (categoryId == null || categoryId <= 0)
+		{
+			return BadRequest();
+		}
+
+		var events = await _service.GetEventByCategory(categoryId);
+		if (events == null)
+		{
+			return NotFound("No events in this category were found");
+		}
+
+		return Ok(events);
+	}
+
+	[HttpGet("search")]
+	public async Task<ActionResult> SearchEventsByTitle([FromQuery] string title)
+	{
+		if (string.IsNullOrWhiteSpace(title))
+			return BadRequest("Title cannot be empty.");
+
+		var events = await _service.GetEventByTitle(title);
+
+		if (events == null || !events.Any())
+			return NotFound($"No events found with title containing '{title}'.");
+
+		return Ok(events);
 	}
 }
