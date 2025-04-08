@@ -13,16 +13,18 @@ namespace EvenTer.WebAPI.Controllers.User;
 public class UserController : ControllerBase
 {
 	private readonly IUserService _service;
-	public UserController(IUserService service)
+	private readonly ICurrentUserService _currentUserService;
+	public UserController(IUserService service, ICurrentUserService currentUserService)
 	{
-		_service = service;		
+		_service = service;
+		_currentUserService = currentUserService;
 	}
 
 	[Authorize]
 	[HttpGet]
 	public async Task<IActionResult> GetCurrentUser()
 	{
-		var userId = GetUserIdFromClaims();
+		var userId = _currentUserService.GetUserId(User);
 		if (userId == null)
 			return Unauthorized();
 
@@ -34,7 +36,7 @@ public class UserController : ControllerBase
 	[HttpPut]
 	public async Task<IActionResult> UpdateCurrentUser([FromBody] UpdateUserDTO dto)
 	{
-		var userId = GetUserIdFromClaims();
+		var userId = _currentUserService.GetUserId(User);
 		if (userId == null)
 			return Unauthorized();
 
@@ -43,14 +45,10 @@ public class UserController : ControllerBase
 	}
 
 	[Authorize]
-	[HttpDelete]
-	public async Task<IActionResult> DeleteCurrentUser()
+	[HttpDelete("{userid:guid}")]
+	public async Task<IActionResult> DeleteUser(Guid userid)
 	{
-		var userId = GetUserIdFromClaims();
-		if (userId == null)
-			return Unauthorized();
-
-		await _service.DeleteUser(userId.Value);
+		await _service.DeleteUser(userid);
 		return NoContent();
 	}
 
@@ -70,21 +68,10 @@ public class UserController : ControllerBase
 		return Ok(user);
 	}
 
-	[Authorize]
 	[HttpGet("by-username")]
 	public async Task<IActionResult> GetUserByUsername([FromQuery] string username)
 	{
 		var user = await _service.GetUserByUsername(username);
 		return Ok(user);
-	}
-
-	private Guid? GetUserIdFromClaims()
-	{
-		var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-		if (Guid.TryParse(userIdClaim, out var userId))
-		{
-			return userId;
-		}
-		return null;
 	}
 }

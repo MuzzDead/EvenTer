@@ -1,6 +1,8 @@
 ﻿using EvenTer.BLL.DTO.Event;
 using EvenTer.BLL.Interfaces.Event.IServices;
+using EvenTer.BLL.Interfaces.User.IServices;
 using EvenTer.BLL.Services.Event;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +13,14 @@ namespace EvenTer.WebAPI.Controllers.Event;
 public class EventController : ControllerBase
 {
 	private readonly IEventService _service;
-	public EventController(IEventService service)
+	private readonly ICurrentUserService _currentUserService;
+	public EventController(IEventService service, ICurrentUserService currentUserService)
 	{
 		_service = service;
+		_currentUserService = currentUserService;
 	}
 
+	[Authorize]
 	[HttpPost]
 	public async Task<IActionResult> AddEvent([FromBody] EventDTO eventDTO)
 	{
@@ -28,19 +33,32 @@ public class EventController : ControllerBase
 		return Ok("Event added successful!");
 	}
 
+	[Authorize]
 	[HttpDelete("{eventId:guid}")]
 	public async Task<IActionResult> DeleteEvent([FromRoute] Guid eventId)
 	{
-		await _service.DeleteEvent(eventId);
-		return NoContent();
+		if (await IsAuthor(eventId))
+		{
+			await _service.DeleteEvent(eventId);
+			return NoContent();
+		}
+
+		return Forbid("You have not permission!");
 	}
 
+	[Authorize]
 	[HttpPut("{eventId:guid}")]
 	public async Task<IActionResult> UpdateEvent([FromRoute] Guid eventId, [FromBody] EventDTO eventDTO)
 	{
-		await _service.UpdateEvent(eventId, eventDTO);
-		return Ok("Event updated successful!");
+		if (await IsAuthor(eventId))
+		{
+			await _service.UpdateEvent(eventId, eventDTO);
+			return Ok("Event updated successful!");
+		}
+
+		return Forbid("You have not permission!");
 	}
+
 
 	[HttpGet("{eventId:guid}")]
 	public async Task<IActionResult> GetEvent([FromRoute] Guid eventId)
@@ -48,6 +66,7 @@ public class EventController : ControllerBase
 		return Ok(await _service.GetEvent(eventId));
 	}
 
+	[Authorize(Roles = "Admin")]
 	[HttpGet]
 	public async Task<IActionResult> GetEvents()
 	{
@@ -83,5 +102,17 @@ public class EventController : ControllerBase
 			return NotFound($"No events found with title containing '{title}'.");
 
 		return Ok(events);
+	}
+
+	private async Task<bool> IsAuthor(Guid eventId)
+	{
+		var userId = (await _service.GetEvent(eventId)).OrganizerId;
+		var currentUserId = _currentUserService.GetUserId(User);
+		if (currentUserId == userId)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

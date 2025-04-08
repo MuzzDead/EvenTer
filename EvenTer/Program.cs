@@ -45,6 +45,7 @@ namespace EvenTer
 			builder.Services.AddScoped<IEventCategoryService, EventCategoryService>();
 			builder.Services.AddScoped<IUserService, UserService>();
 			builder.Services.AddScoped<IUserRepository, UserRepository>();
+			builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 			builder.Services.AddScoped<JwtTokenService>();
 
 			var jwtSettings = builder.Configuration.GetSection("JwtSettings");
