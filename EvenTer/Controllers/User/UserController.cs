@@ -43,14 +43,10 @@ public class UserController : ControllerBase
 	}
 
 	[Authorize]
-	[HttpDelete]
-	public async Task<IActionResult> DeleteCurrentUser()
+	[HttpDelete("{userid:guid}")]
+	public async Task<IActionResult> DeleteUser(Guid userid)
 	{
-		var userId = GetUserIdFromClaims();
-		if (userId == null)
-			return Unauthorized();
-
-		await _service.DeleteUser(userId.Value);
+		await _service.DeleteUser(userid);
 		return NoContent();
 	}
 
@@ -70,7 +66,6 @@ public class UserController : ControllerBase
 		return Ok(user);
 	}
 
-	[Authorize]
 	[HttpGet("by-username")]
 	public async Task<IActionResult> GetUserByUsername([FromQuery] string username)
 	{
