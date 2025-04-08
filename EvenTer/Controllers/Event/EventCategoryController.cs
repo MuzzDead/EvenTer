@@ -1,5 +1,6 @@
 ﻿using EvenTer.BLL.DTO.Event;
 using EvenTer.BLL.Interfaces.Event.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace EvenTer.WebAPI.Controllers.Event
 			_service = service;
 		}
 
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		public async Task<IActionResult> CreateCategory([FromBody] EventCategoryDTO categoryDTO)
 		{
@@ -45,6 +47,7 @@ namespace EvenTer.WebAPI.Controllers.Event
 			return Ok(category);
 		}
 
+		[Authorize(Roles = "Admin")]
 		[HttpPut("{categoryId:int}")]
 		public async Task<IActionResult> UpdateCategories([FromRoute] int categoryId, [FromBody] EventCategoryDTO categoryDTO)
 		{
@@ -57,6 +60,7 @@ namespace EvenTer.WebAPI.Controllers.Event
 			return Ok("Category updated successful!");
 		}
 
+		[Authorize(Roles = "Admin")]
 		[HttpDelete("{categoryId:int}")]
 		public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
 		{
