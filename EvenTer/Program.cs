@@ -50,7 +50,16 @@ namespace EvenTer
 
 			var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 			var secretKey = jwtSettings["Secret"];
-
+			
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy(name: "_eventOrigin", policy =>
+				{
+					policy.WithOrigins("http://localhost:3000")
+					.AllowAnyHeader()
+					.AllowAnyMethod();
+				});
+			});
 
 			builder.Services.AddSwaggerGen(options =>
 			{
@@ -125,7 +134,8 @@ namespace EvenTer
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-
+			app.UseCors("_eventOrigin");
+			
 			app.MapControllers();
 
 			app.Run();
